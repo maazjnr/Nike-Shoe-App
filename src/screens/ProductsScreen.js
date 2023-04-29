@@ -1,14 +1,31 @@
-import { StyleSheet, Text, View, Image, FlatList, Pressable} from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  FlatList,
+  Pressable,
+} from "react-native";
 import products from "../data/products";
-import React from 'react'
+import { useSelector, useDispatch } from "react-redux";
+import { productsSlice } from "../store/ProductsSlice";
 
-const ProductsScreen = ({navigation}) => {
+const ProductsScreen = ({ navigation }) => {
+
+  const products = useSelector((state) => state.products.products);
+  const dispatch = useDispatch();
+
   return (
     <View>
-        <FlatList
+      <FlatList
         data={products}
         renderItem={({ item }) => (
-          <Pressable style={styles.itemContainer} onPress={() => navigation.navigate("Product Details")} >
+          <Pressable
+            style={styles.itemContainer}
+            onPress={() => {
+              dispatch(productsSlice.actions.setSelectedProduct(item.id))
+               navigation.navigate("Product Details")}}
+          >
             <Image source={{ uri: item.image }} style={styles.image} />
           </Pressable>
         )}
@@ -16,18 +33,18 @@ const ProductsScreen = ({navigation}) => {
         showsHorizontalScrollIndicator={false}
       />
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
-    image: {
-        width: "100%",
-        aspectRatio: 1,
-      },
-      itemContainer: {
-        width: "50%",
-        padding: 1
-      }
-})
+  image: {
+    width: "100%",
+    aspectRatio: 1,
+  },
+  itemContainer: {
+    width: "50%",
+    padding: 1,
+  },
+});
 
-export default ProductsScreen
+export default ProductsScreen;
