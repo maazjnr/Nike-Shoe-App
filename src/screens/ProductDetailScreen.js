@@ -6,20 +6,22 @@ import {
   useWindowDimensions,
   Text,
   ScrollView,
-  Pressable,
+  TouchableOpacity,
 } from "react-native";
-import products from "../data/products";
 import { Ionicons } from "@expo/vector-icons";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { cartSlice } from "../store/CartSlice";
 
 const ProductDetailsScreen = () => {
 
-  const product = useSelector((state) => state.products.selectedProduct)
- 
+  const product = useSelector((state) => state.products.selectedProduct);
+  const dispatch = useDispatch();
+
+
   const { width } = useWindowDimensions();
 
   const addToCart = () => {
-    console.warn("Add to cart");
+    dispatch(cartSlice.actions.addCartItem({ product }));
   };
 
   return (
@@ -52,15 +54,14 @@ const ProductDetailsScreen = () => {
       </ScrollView>
 
       {/* Add to cart button */}
-      <Pressable style={styles.button} onPress={addToCart}>
+      <TouchableOpacity style={styles.button} onPress={addToCart}>
         <Text style={styles.buttonText}>Add to cart</Text>
-      </Pressable>
+      </TouchableOpacity>
 
       {/* Navigation icon */}
-      <Pressable style={styles.icon}>
+      <TouchableOpacity style={styles.icon}>
         <Ionicons name="close" size={24} color="white" />
-      </Pressable>
-      
+      </TouchableOpacity>
     </View>
   );
 };

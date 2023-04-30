@@ -7,8 +7,12 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { MaterialIcons } from "@expo/vector-icons";
 const Stack = createNativeStackNavigator();
+import { useSelector } from "react-redux";
+import { selectedNumberOfItems } from "./store/CartSlice";
 
 const Navigation = () => {
+
+  const numberOfItems = useSelector(selectedNumberOfItems);
 
   return (
     <NavigationContainer>
@@ -27,7 +31,7 @@ const Navigation = () => {
                 onPress={() => navigation.navigate("Cart")}
               >
                 <MaterialIcons name="shopping-cart" size={18} color="gray" />
-                <Text style={{ marginLeft: 5, fontWeight: "500" }}>1</Text>
+                <Text style={{ marginLeft: 5, fontWeight: "500" }}> {numberOfItems} </Text>
               </Pressable>
             ),
           })}
